@@ -4,15 +4,12 @@ pragma solidity ^0.8.0;
 import "@thirdweb-dev/contracts/base/ERC20Base.sol";
 
 contract AvaxERC20 is ERC20Base {
-    private uint256 constant MAX_BPS = 10000;
-    private uint256 immutable MAX_WALLET_CAP_BASIS_POINTS = 200;
+    uint256 private constant MAX_BPS = 10000;
+    uint256 private immutable MAX_WALLET_CAP_BASIS_POINTS;
 
-    constructor(
-        address _defaultAdmin,
-        string memory _name,
-        string memory _symbol,
-        uint256 _walletCapBasisPoints
-    ) ERC20Base(_defaultAdmin, _name, _symbol) {
+    constructor(address _defaultAdmin, string memory _name, string memory _symbol, uint256 _walletCapBasisPoints)
+        ERC20Base(_defaultAdmin, _name, _symbol)
+    {
         MAX_WALLET_CAP_BASIS_POINTS = _walletCapBasisPoints;
     }
 
