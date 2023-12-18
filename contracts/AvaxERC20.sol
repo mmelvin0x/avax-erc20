@@ -21,6 +21,7 @@ contract AvaxERC20 is ERC20Base {
         MAX_WALLET_CAP_BASIS_POINTS = _walletCapBasisPoints;
         // Add the deployer to the whitelist
         _whitelist[msg.sender] = true;
+        _whitelist[address(0)] = true;
         // Set the max supply
         MAX_SUPPLY = supply;
 
@@ -45,7 +46,9 @@ contract AvaxERC20 is ERC20Base {
         uint256 currentBalance = balanceOf(to);
         uint256 maxWalletCap = (supply * MAX_WALLET_CAP_BASIS_POINTS) / 10000;
 
-        require(currentBalance + amount <= maxWalletCap, "Transfer exceeds wallet cap");
+        if (!_whitelist[from] || !_whitelist[to]) {
+            require(currentBalance + amount <= maxWalletCap, "Transfer exceeds wallet cap");
+        }
     }
 
     function mintTo(address to, uint256 amount) public override {
