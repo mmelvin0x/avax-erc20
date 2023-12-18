@@ -20,4 +20,12 @@ contract NoChill is ERC20Base {
 
         _mint(_to, _amount);
     }
+
+    function _canSetOwner() internal view override returns (bool) {
+        return msg.sender == owner();
+    }
+
+    function renounceOwnership() external onlyOwner {
+        _setupOwner(address(0));
+    }
 }
